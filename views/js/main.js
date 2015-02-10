@@ -452,10 +452,10 @@ var resizePizzas = function(size) {
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
       var randomPizzaContainerArray = document.querySelectorAll(".randomPizzaContainer");
-      var dx = determineDx(randomPizzaContainerArray[1], size);
-      var newwidth = (randomPizzaContainerArray[1].offsetWidth + dx) + 'px';
 
     for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
+            var dx = determineDx(randomPizzaContainerArray[i], size);
+      var newwidth = (randomPizzaContainerArray[i].offsetWidth + dx) + 'px';
       randomPizzaContainerArray[i].style.width = newwidth;
     }
   }
@@ -508,8 +508,12 @@ function updatePositions() {
   var items = document.querySelectorAll('.mover');
   for (var i = 0; i < items.length; i++) {
     var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-    //console.log(items[i].basicLeft);
+    // using translateX instead makes the composite much more faster and efficient.
+        items[i].style.WebkitTransform = "translateX(" + 100 * phase + "px)";
+        items[i].style.MozTransform = "translateX(" + 100 * phase + "px)";
+        items[i].style.msTransform = "translateX(" + 100 * phase + "px)";
+        items[i].style.OTransform = "translateX(" + 100 * phase + "px)";
+        items[i].style.transform = "translateX(" + 100 * phase + "px)";
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
