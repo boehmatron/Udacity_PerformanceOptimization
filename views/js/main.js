@@ -451,12 +451,13 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-      var randomPizzaContainerArray = document.querySelectorAll(".randomPizzaContainer");
+    var allPizzaContainers = document.querySelectorAll(".randomPizzaContainer");
+    var randomPizzaContainerCount = document.querySelectorAll(".randomPizzaContainer").length;
+    var dx = determineDx(document.querySelector(".randomPizzaContainer"), size);
+    var newwidth = (document.querySelector(".randomPizzaContainer").offsetWidth + dx) + 'px';
 
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-            var dx = determineDx(randomPizzaContainerArray[i], size);
-      var newwidth = (randomPizzaContainerArray[i].offsetWidth + dx) + 'px';
-      randomPizzaContainerArray[i].style.width = newwidth;
+    for (var i = 0; i < randomPizzaContainerCount; i++) { 
+      allPizzaContainers[i].style.width = newwidth; 
     }
   }
 
@@ -506,15 +507,22 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    // using translateX instead makes the composite much more faster and efficient.
-        items[i].style.WebkitTransform = "translateX(" + 100 * phase + "px)";
-        items[i].style.MozTransform = "translateX(" + 100 * phase + "px)";
-        items[i].style.msTransform = "translateX(" + 100 * phase + "px)";
-        items[i].style.OTransform = "translateX(" + 100 * phase + "px)";
-        items[i].style.transform = "translateX(" + 100 * phase + "px)";
+  var scrolledPixels = document.body.scrollTop;
+  var phase = [];
+
+  for (var j = 0; j < 5; j++){
+    phase[j] = Math.sin( (scrolledPixels / 1250) + (j % 5) )
   }
+
+  for (var i = 0, k = 0; i < items.length; i++) {
+    items[i].style.WebkitTransform = "translateX(" + ( items[i].basicLeft + (100 * phase[k]) ) + "px)";
+    if (k === 4) {
+      k = 0;
+    } else {
+      k++;
+    }
+  }
+
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
