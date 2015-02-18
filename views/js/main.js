@@ -523,7 +523,6 @@ function updatePositions() {
     }
   }
 
-
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
   window.performance.mark("mark_end_frame");
