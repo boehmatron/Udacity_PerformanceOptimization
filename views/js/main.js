@@ -451,11 +451,13 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
+    // put all variables that don#t change out of the for-loop
     var allPizzaContainers = document.querySelectorAll(".randomPizzaContainer");
     var randomPizzaContainerCount = document.querySelectorAll(".randomPizzaContainer").length;
     var dx = determineDx(document.querySelector(".randomPizzaContainer"), size);
     var newwidth = (document.querySelector(".randomPizzaContainer").offsetWidth + dx) + 'px';
 
+    // only applied the for loop to those elements that need to change
     for (var i = 0; i < randomPizzaContainerCount; i++) { 
       allPizzaContainers[i].style.width = newwidth; 
     }
@@ -506,14 +508,18 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
+  // reduced the for loop and put the elements separate out of the loop
   var items = document.querySelectorAll('.mover');
   var scrolledPixels = document.body.scrollTop;
   var phase = [];
 
+  // this for loop defines the phase from 0 to 4
   for (var j = 0; j < 5; j++){
     phase[j] = Math.sin( (scrolledPixels / 1250) + (j % 5) )
   }
 
+  // only the relevant items got moved in the for-loop using translateX and the phase
+  // gets a reset every 4 loops.
   for (var i = 0, k = 0; i < items.length; i++) {
     items[i].style.WebkitTransform = "translateX(" + ( items[i].basicLeft + (100 * phase[k]) ) + "px)";
     if (k === 4) {

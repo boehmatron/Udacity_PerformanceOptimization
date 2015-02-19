@@ -22,9 +22,10 @@ Array and sets the new width to all of them.
 of the for-loop.
 
 * The phase of the position of the pizzas is put in a separate
-for-loop and loops from 0 to 5 and not through the whole item-
+for-loop and loops from 0 to 4 and not through the whole item-
 array
 
 * The second for-loop iterates through all the items and modifies
 their x-position by using "translateX" WebKitTransform wich is 
-a much efficient way to move objects in the browser.
+a much efficient way to move objects in the browser. Also the 
+phase gets a reset every 4 loops.
